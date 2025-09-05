@@ -10,6 +10,6 @@ const apiroute = express.Router();
 apiroute.use("/auth", userroute);
 apiroute.use("/patients", authmiddleware, paitentroute);
 apiroute.use("/doctors", authmiddleware, doctorroute);
-// apiroute.use("/mappings", authmiddleware, mappingroute);
+apiroute.use("/mappings", authmiddleware, mappingroute);
 
 module.exports = { apiroute };

@@ -55,7 +55,7 @@ const getPatientDetails = async (req, res) => {
     });
 
     if (!patient) {
-      res.status(404).json({
+      return res.status(404).json({
         message: "Patient not found",
       });
     }
@@ -116,43 +116,42 @@ const updatePatient = async (req, res) => {
 // Delete a patient record.-----------------
 
 const deletePatient = async (req, res) => {
-    try {
-          const patientId = req.params.id;
+  try {
+    const patientId = req.params.id;
 
-  if (!patientId) {
-    res.status(404).json({
-      message: "Patient not found",
+    if (!patientId) {
+      res.status(404).json({
+        message: "Patient not found",
+      });
+    }
+
+    //finding patient in db
+    const patient = await prisma.patient.findUnique({
+      where: {
+        id: patientId,
+      },
     });
-  }
 
-  //finding patient in db
-  const patient = await prisma.patient.findUnique({
-    where: {
-      id: patientId,
-    },
-  });
+    if (!patient) {
+      return res.status(404).json({
+        message: "Patient not found ",
+      });
+    }
 
-  if (!patient) {
-    return res.status(404).json({
-      message: "Patient not found ",
+    //deleting patient
+    await prisma.patient.delete({
+      where: { id: patientId },
     });
-  }
 
-  //deleting patient
-  await prisma.patient.delete({
-    where: { id: patientId },
-  });
-
-  res.status(200).json({
-    message: "Patient deleted successfully",
-  });
-    } catch (error) {
-        (console.error("delete patient error:", error),
+    res.status(200).json({
+      message: "Patient deleted successfully",
+    });
+  } catch (error) {
+    (console.error("delete patient error:", error),
       res.status(500).json({
         message: "Server error",
       }));
-    }
-
+  }
 };
 
 module.exports = {

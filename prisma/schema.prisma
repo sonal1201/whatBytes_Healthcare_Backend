@@ -54,8 +54,8 @@ model DoctorMapping {
 
   patientId String
   doctorId  String
-  Patient   Patient @relation(fields: [patientId], references: [id])
-  Doctor    Doctor  @relation(fields: [doctorId], references: [id])
+  patient   Patient @relation(fields: [patientId], references: [id])
+  doctor    Doctor  @relation(fields: [doctorId], references: [id])
 
   createdAt DateTime @default(now())
 
