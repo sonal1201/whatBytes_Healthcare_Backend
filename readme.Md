@@ -327,16 +327,90 @@ DELETE /api/doctors/5ebcead2-bcd6-4aa6-932a-296c6dddd8fe
 }
 
 ```
-## MONGODB data
+
+
+### Patient-Doctor Mapping Management (Authenticated)
+#### Assign a Doctor to a Patient
+```http
+POST /api/mappings/
+```
+#### Input and Response data 
+```
+##input
+{
+  "doctorId": "d12f4a01-dabc-429b-abe9-01593654874f",
+  "patientId": "2a8d964f-dd13-4b41-978e-e54d0a41a097"
+}
+
+##response
+{
+  "message": "d12f4a01-dabc-429b-abe9-01593654874f assigned to 2a8d964f-dd13-4b41-978e-e54d0a41a097 successfully",
+  "mapping": {
+    "id": "m1234567-89ab-cdef-0123-456789abcdef",
+    "doctorId": "d12f4a01-dabc-429b-abe9-01593654874f",
+    "patientId": "2a8d964f-dd13-4b41-978e-e54d0a41a097",
+    "createdAt": "2025-09-05T22:00:00.000Z"
+  }
+}
+```
+#### Get All Mappings
+```http
+GET /api/mappings/
+```
+#### Response data
+```
+##response
+{
+  "message": "fetched all mappings successfully",
+  "mappings": [
+    {
+      "id": "m1234567-89ab-cdef-0123-456789abcdef",
+      "doctorId": "d12f4a01-dabc-429b-abe9-01593654874f",
+      "patientId": "2a8d964f-dd13-4b41-978e-e54d0a41a097",
+      "createdAt": "2025-09-05T22:00:00.000Z"
+    }
+  ]
+}
 
 ```
-  {
-  "_id":{"$oid":"680a7a6200bc14416879235b"},
-  "title":"Server Down",
-  "description":"The main server went down unexpectedly causing downtime for all users.",
-  "severity":"high",
-  "createdAt":{"$date":{"$numberLong":"1745517154957"}},
-  "updatedAt":{"$date":{"$numberLong":"1745517154957"}},
-  "__v":{"$numberInt":"0"}
-  }
-  ```
+
+#### Get All Doctors Assigned to a Specific Patient
+```http
+GET /api/mappings/2a8d964f-dd13-4b41-978e-e54d0a41a097
+```
+#### Response data
+```
+##response
+{
+  "message": "fetched all doctor assigned to a specific patient",
+  "mappings": [
+    {
+      "id": "m1234567-89ab-cdef-0123-456789abcdef",
+      "doctor": [{
+        "id": "d12f4a01-dabc-429b-abe9-01593654874f",
+        "name": "Dr. John ",
+      },
+     {
+        "id": "5ebcead2-bcd6-4aa6-932a-296c6dddd8fe",
+        "name": "Dr. Shetthy ",
+      }],
+      "patientId": "2a8d964f-dd13-4b41-978e-e54d0a41a097",
+      "createdAt": "2025-09-05T22:00:00.000Z"
+    }
+  ]
+}
+
+```
+
+#### Remove a Doctor from a Patient
+```http
+DELETE /api/mappings/m1234567-89ab-cdef-0123-456789abcdef
+```
+#### Response data
+```
+##response
+{
+  "message": "mapping deleted successfully"
+}
+
+```
