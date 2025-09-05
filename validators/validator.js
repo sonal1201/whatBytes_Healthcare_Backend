@@ -1,19 +1,24 @@
-import { z } from "zod";
+const { z } = require("zod");
 
-export const userValidator = z.object({
+
+const userValidator = z.object({
   name: z.string("provide correct name"),
   email: z.email(),
   password: z.string().min(4, "password must be greater then 6 char"),
 });
 
-export const patiantValidator = z.object({
+const patiantValidator = z.object({
   name: z.string("provide correct name"),
   age: z.int(),
   gender: z.enum[("male", "female", "other")],
 });
 
-
-export const doctorValidator = z.object({
-  name: z.string("provide correct name")
-
+const doctorValidator = z.object({
+  name: z.string("provide correct name"),
 });
+
+module.exports = {
+    userValidator,
+    patiantValidator,
+    doctorValidator
+}

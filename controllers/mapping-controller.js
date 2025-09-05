@@ -1,7 +1,22 @@
-export const createMapping = (req, res) => {};
+const createMapping = (req, res) => {
 
-export const getAllMappings = (req, res) => {};
+};
 
-export const getMappingsByPatientId = (req, res) => {};
+const getAllMappings = (req, res) => {
 
-export const deleteMapping = (req, res) => {};
+};
+
+const getMappingsByPatientId = (req, res) => {
+
+};
+
+const deleteMapping = (req, res) => {
+
+};
+
+module.exports = {
+  createMapping,
+  getAllMappings,
+  getMappingsByPatientId,
+  deleteMapping,
+};

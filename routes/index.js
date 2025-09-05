@@ -1,12 +1,15 @@
-import express from "express";
-import { userroute } from "./authentication-route";
-import { paitentroute } from "./patient-route";
-import { doctorroute } from "./doctor-route";
-import { mappingroute } from "./mapping-route";
+const express = require("express");
+const { userroute } = require("./authentication-route");
+const { paitentroute } = require("./patient-route");
+const { doctorroute } = require("./doctor-route");
+const { mappingroute } = require("./mapping-route");
+const { authmiddleware } = require("../middlewares/auth-middleware");
 
-export const apiroute = express.Router();
+const apiroute = express.Router();
 
 apiroute.use("/auth", userroute);
-apiroute.use("/patients", paitentroute);
-apiroute.use("/doctors", doctorroute);
-apiroute.use("/mappings",mappingroute);
+// apiroute.use("/patients", authmiddleware, paitentroute);
+// apiroute.use("/doctors", authmiddleware, doctorroute);
+// apiroute.use("/mappings", authmiddleware, mappingroute);
+
+module.exports = { apiroute };

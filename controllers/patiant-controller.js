@@ -1,9 +1,17 @@
-export const addNewPatient = (req, res) => {};
+const addNewPatient = (req, res) => {};
 
-export const getAllPatient = (req, res) => {};
+const getAllPatient = (req, res) => {};
 
-export const getPatientDetails = (req, res) => {};
+const getPatientDetails = (req, res) => {};
 
-export const updatePatient = (req, res) => {};
+const updatePatient = (req, res) => {};
 
-export const deletePatient = (req, res) => {};
+const deletePatient = (req, res) => {};
+
+module.exports = {
+  addNewPatient,
+  getAllPatient,
+  getPatientDetails,
+  updatePatient,
+  deletePatient,
+};

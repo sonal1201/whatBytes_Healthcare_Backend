@@ -1,13 +1,13 @@
-import express from "express";
-import {
+const express = require("express");
+const {
   addNewDoctor,
   deleteDoctor,
   getAllDoctor,
   getDoctorDetails,
   updateDoctor,
-} from "../controllers/doctor-controller";
+} = require("../controllers/doctor-controller");
 
-export const doctorroute = express.Router();
+const doctorroute = express.Router();
 
 //-------------//
 
@@ -16,3 +16,6 @@ doctorroute.get("/", getAllDoctor);
 doctorroute.get("/:id", getDoctorDetails);
 doctorroute.put("/:id", updateDoctor);
 doctorroute.delete("/:id", deleteDoctor);
+
+
+module.exports = { doctorroute };
