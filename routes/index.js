@@ -8,7 +8,7 @@ const { authmiddleware } = require("../middlewares/auth-middleware");
 const apiroute = express.Router();
 
 apiroute.use("/auth", userroute);
-// apiroute.use("/patients", authmiddleware, paitentroute);
+apiroute.use("/patients", authmiddleware, paitentroute);
 // apiroute.use("/doctors", authmiddleware, doctorroute);
 // apiroute.use("/mappings", authmiddleware, mappingroute);
 
