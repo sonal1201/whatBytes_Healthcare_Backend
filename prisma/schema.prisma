@@ -1,0 +1,64 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       String @id @default(uuid())
+  name     String
+  email    String
+  password String
+
+  // one user can have multiple doctor and patient
+  patients Patient[]
+  doctors  Doctor[]
+}
+
+model Patient {
+  id     String @id @default(uuid())
+  name   String
+  age    Int
+  gender String
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  mapping DoctorMapping[]
+
+  createdAt DateTime @default(now())
+}
+
+model Doctor {
+  id   String @id @default(uuid())
+  name String
+
+  User   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+
+  mapping   DoctorMapping[]
+  createdAt DateTime        @default(now())
+}
+
+model DoctorMapping {
+  id String @id @default(uuid())
+
+  patientId String
+  doctorId  String
+  Patient   Patient @relation(fields: [patientId], references: [id])
+  Doctor    Doctor  @relation(fields: [doctorId], references: [id])
+
+  createdAt DateTime @default(now())
+
+  @@unique([patientId, doctorId]) // to prevent dupkicate mapping
+}
