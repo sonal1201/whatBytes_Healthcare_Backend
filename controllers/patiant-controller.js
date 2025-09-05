@@ -75,41 +75,49 @@ const getPatientDetails = async (req, res) => {
 // Update patient details.------------------
 
 const updatePatient = async (req, res) => {
-  const patientId = req.params.id;
-  const { name, age, gender } = req.body;
+  try {
+    const patientId = req.params.id;
+    const { name, age, gender } = req.body;
 
-  if (!patientId) {
-    return res.status(400).json({ message: "Patient ID is required" });
+    if (!patientId) {
+      return res.status(400).json({ message: "Patient ID is required" });
+    }
+
+    const existingPatient = await prisma.patient.findUnique({
+      where: { id: patientId },
+    });
+
+    if (!existingPatient) {
+      return res.status(404).json({ message: "Patient not found" });
+    }
+
+    //updating the patient
+    const updatedPatient = await prisma.patient.update({
+      where: { id: patientId },
+      data: {
+        name: name || existingPatient.name,
+        age: age || existingPatient.age,
+        gender: gender || existingPatient.gender,
+      },
+    });
+
+    res.status(200).json({
+      message: "Patient updated successfully",
+      patient: updatedPatient,
+    });
+  } catch (error) {
+    (console.error("update patient error:", error),
+      res.status(500).json({
+        message: "Server error",
+      }));
   }
-
-  const existingPatient = await prisma.patient.findUnique({
-    where: { id: patientId },
-  });
-
-  if (!existingPatient) {
-    return res.status(404).json({ message: "Patient not found" });
-  }
-
-  //updating the patient
-  const updatedPatient = await prisma.patient.update({
-    where: { id: patientId },
-    data: {
-      name: name || existingPatient.name,
-      age: age || existingPatient.age,
-      gender: gender || existingPatient.gender,
-    },
-  });
-
-  res.status(200).json({
-    message: "Patient updated successfully",
-    patient: updatedPatient,
-  });
 };
 
 // Delete a patient record.-----------------
 
 const deletePatient = async (req, res) => {
-  const patientId = req.params.id;
+    try {
+          const patientId = req.params.id;
 
   if (!patientId) {
     res.status(404).json({
@@ -138,6 +146,13 @@ const deletePatient = async (req, res) => {
   res.status(200).json({
     message: "Patient deleted successfully",
   });
+    } catch (error) {
+        (console.error("delete patient error:", error),
+      res.status(500).json({
+        message: "Server error",
+      }));
+    }
+
 };
 
 module.exports = {
